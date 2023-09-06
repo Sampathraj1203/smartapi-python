@@ -1,0 +1,35 @@
+import json
+import logging
+import requests
+import re
+import uuid
+import socket
+from requests import get
+from SmartConnect import SmartConnect  # Import the SmartConnect class
+
+# Define the login function
+def login_to_account(api_key, client_code, password, totp=""):
+    # Create an instance of the SmartConnect class
+    smart_connect = SmartConnect(api_key=api_key)
+
+    # Call the generateSession method with your credentials
+    session_info = smart_connect.generateSession(client_code, password, totp)
+
+    # Check the session_info to verify the login status
+    if session_info['status'] == True:
+        print("Login successful!")
+        return session_info  # You can return the session information if needed
+    else:
+        print("Login failed. Error message:", session_info['message'])
+        return None  # Return None in case of login failure
+
+# Replace these with your actual credentials
+api_key = "YOUR_API_KEY"
+client_code = "YOUR_CLIENT_CODE"
+password = "YOUR_PASSWORD"
+totp = "YOUR_TOTP"  # Leave empty if TOTP is not required
+
+# Call the login function
+login_result = login_to_account(api_key, client_code, password, totp)
+
+# Now you can use the 'login_result' if the login was successful
